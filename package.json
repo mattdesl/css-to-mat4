@@ -1,0 +1,42 @@
+{
+  "name": "css-to-mat4",
+  "version": "1.0.0",
+  "description": "converts a css matrix string into a mat4 array",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Matt DesLauriers",
+    "email": "dave.des@gmail.com",
+    "url": "https://github.com/mattdesl"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "dom-css": "^1.0.4",
+    "matrix-to-css": "^1.0.4",
+    "prefix-style": "^1.0.0",
+    "tape": "^3.0.3"
+  },
+  "scripts": {
+    "test": "beefy test.js --open"
+  },
+  "keywords": [
+    "mat4",
+    "normalize",
+    "matrix",
+    "string",
+    "css",
+    "str",
+    "matrix()",
+    "matrix3d()",
+    "matrix3d",
+    "matrix2d"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mattdesl/css-to-mat4.git"
+  },
+  "homepage": "https://github.com/mattdesl/css-to-mat4",
+  "bugs": {
+    "url": "https://github.com/mattdesl/css-to-mat4/issues"
+  }
+}
