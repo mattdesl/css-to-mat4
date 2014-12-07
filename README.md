@@ -29,7 +29,7 @@ if (prefix) { //transforms supported
 
 [![NPM](https://nodei.co/npm/css-to-mat4.png)](https://nodei.co/npm/css-to-mat4/)
 
-#### 'toMat4(out, str)`
+#### `toMat4(out, str)`
 
 Converts the `"matrix()"` or `"matrix3d()" string into a 16-float array representing a 4x4 matrix. 2D matrices will be stored in the upper left of a 4x4 identity matrix.
 
