@@ -14,10 +14,12 @@
     "dom-css": "^1.0.4",
     "matrix-to-css": "^1.0.4",
     "prefix-style": "^1.0.0",
+    "gl-mat4": "^1.0.1",
     "tape": "^3.0.3"
   },
   "scripts": {
-    "test": "beefy test.js --open"
+    "test": "node test.js",
+    "test-browser": "beefy test.js --open"
   },
   "keywords": [
     "mat4",

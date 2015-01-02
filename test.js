@@ -1,55 +1,35 @@
-var style = require('dom-css')
-var cssStr = require('matrix-to-css')
-
-var test = require('tape').test
-var toMat4 = require('./')
-var prefix = require('prefix-style')
-
-function getTransform(div) {
-    return window.getComputedStyle(div)[prefix('transform')]
-}
+var parse = require('./')
+var mat4 = require('gl-mat4')
+var test = require('tape')
 
 test('handles comma differences', function(t) {
-    var a = toMat4([], 'matrix(1,0,  0, 1,0,0)')
-    var b = toMat4([], 'matrix(1,0,0,1,0,0 )')
+    var a = parse('matrix(1,0,  0, 1,0,0)', [])
+    var b = parse('matrix(1,0,0,1,0,0 )', [])
     t.deepEqual(a, b)
     t.end()
 })
 
-test("handles 2d matrix", function(t) {        
-    var div = document.body.appendChild(document.createElement('div'))
+test('should parse css string', function(t) {
+    var m = mat4.identity([])
+    mat4.translate(m, m, [25, 15, 50])
 
-    style(div, {
-        transform: 'rotateZ(40deg) translateX(12px) translateY(50px) scaleX(0.5)'
-    })
+    var str = 'matrix3d('+ m.join(', ') +')'
 
-    var result1 = toMat4([], getTransform(div))
+    var input = []
+    var ret = parse(str, input)
+    t.equal(ret, input, 'input matches output')
+    t.deepEqual(ret, m, 'equals matrix3d')
 
-    style(div, 'transform', '') //clear current first
-    style(div, 'transform', cssStr(result1))
+    ret = parse(str)
+    t.deepEqual(ret, m, 'creates new 16-len array')
 
-    var result2 = toMat4([], getTransform(div))
-    t.deepEqual(result1, result2, 'matrix() handled correctly')
-    document.body.removeChild(div)
+    var str2d = 'matrix(0,0.5,1,0.25,0,1)'
+    input = []
+    ret = parse(str2d, input)
+    t.equal(ret, input, 'input for 2d matches output')
+    t.deepEqual(ret, [ 0, 0.5, 0, 0, 1, 0.25, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 ], 'makes mat4 from mat2d')
 
-    t.end()
-})
-
-test("handles 3d matrix", function(t) {        
-    var div = document.body.appendChild(document.createElement('div'))
-
-    style(div, {
-        transform: 'rotateZ(20deg) rotateX(35deg) translateZ(100px) translateX(202px) translateY(50px) scaleX(0.5)'
-    })
-
-    var result1 = toMat4([], getTransform(div))
-
-    style(div, 'transform', '') //clear current first
-    style(div, 'transform', cssStr(result1))
-
-    var result2 = toMat4([], getTransform(div))
-    t.deepEqual(result1, result2, 'matrix3d() handled correctly')
-
-    document.body.removeChild(div)
+    ret = parse(str2d)
+    t.deepEqual(ret, [ 0, 0.5, 0, 0, 1, 0.25, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1 ], 'makes mat4 from mat2d w/ no output')
     t.end()
 })

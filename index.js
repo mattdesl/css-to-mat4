@@ -1,24 +1,39 @@
 var splitter = /[,\s]+/i
+var MAT_2D = 'matrix('
+var MAT_3D = 'matrix3d('
 
-module.exports = function parseMatrix3d(out, str) {
-    var start = 'matrix3d('
+module.exports = function parseMatrix3d(str, out) {
+    var start = MAT_3D.length
     var is2d = false
     if (str.charAt(6) === '(') {
-        start = 'matrix('
+        start = MAT_2D.length
         is2d = true
     }
 
     //get components as floats
-    var ret = str.substring(start.length, str.length-1).split(splitter)
-    for (var i=0; i<ret.length; i++)
-        ret[i] = parseFloat(ret[i], 10)
-    if (is2d) 
-        return toMat4(out, ret)
-    else 
-        return ret
+    var numbers = str.substring(start, str.length-1).split(splitter)
+    for (var i=0; i<numbers.length; i++) 
+        numbers[i] = parseFloat(numbers[i], 10)
+    
+
+    //if 2D matrix, copy into mat4
+    if (numbers.length<16) 
+        return toMat4(out, numbers)
+
+    //if no out is specified, we can use the split() array
+    if (!out)
+        return numbers
+
+    //otherwise we will copy values over
+    for (i=0; i<16; i++) 
+        out[i] = numbers[i]
+    return out
 }
 
 function toMat4(out, a) {
+    if (!out)
+        out = new Array(16)
+
     out[0] = a[0]
     out[1] = a[1]
     out[2] = 0
