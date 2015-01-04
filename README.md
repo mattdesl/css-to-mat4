@@ -2,6 +2,8 @@
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
+#### deprecated in favour of [mat4-css-parse](https://nodei.co/npm/css-to-mat4/)
+
 Converts a matrix string like `"matrix(1, 0, 0, 1, 0, 0)"` or `"matrix3d(...)"` into a 4x4 matrix (flat array).
 
 Simple example:
